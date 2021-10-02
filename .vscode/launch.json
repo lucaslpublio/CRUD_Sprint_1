@@ -1,0 +1,56 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Launch Main",
+      "request": "launch",
+      "mainClass": "Main",
+      "projectName": "javaio4 - indexado_2ec3a648"
+    },
+    {
+      "type": "java",
+      "name": "Launch Main",
+      "request": "launch",
+      "mainClass": "Main",
+      "projectName": "javaio4_70789e5"
+    },
+    {
+      "type": "java",
+      "name": "Launch Main",
+      "request": "launch",
+      "mainClass": "Main",
+      "projectName": "javaio4_c7fd9c49"
+    },
+    {
+      "type": "java",
+      "name": "Launch Main",
+      "request": "launch",
+      "mainClass": "Main",
+      "projectName": "javaio3_c7fd9c48"
+    },
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - JavaIO",
+      "request": "launch",
+      "mainClass": "JavaIO",
+      "projectName": "javaio2_c7fd9c47"
+    },
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - JavaIO",
+      "request": "launch",
+      "mainClass": "JavaIO",
+      "projectName": "javaio_48840d4b"
+    },
+    {
+      "type": "java",
+      "name": "Debug (Launch) - Current File",
+      "request": "launch",
+      "mainClass": "${file}"
+    }
+  ]
+}
