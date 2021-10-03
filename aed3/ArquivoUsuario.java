@@ -1,10 +1,11 @@
+package aed3;
 import aed3.ArquivoIndexado;
 import aed3.HashExtensivel;
 
-public class ArquivoUsuarios extends ArquivoIndexado<Usuario> {
+public class ArquivoUsuario extends ArquivoIndexado<Usuario> {
     HashExtensivel<ParEmailID> indiceEmail;
 
-    public ArquivoUsuarios(String nomeEntidade, Constructor<T> c) throws Exception {
+    public ArquivoUsuario(String nomeEntidade, Constructor<T> c) throws Exception {
         super(nomeEntidade, c);
         indiceEmail = new HashExtensivel<>(ParEmailID.class.getConstructor(), 4,
         "dados/" + nomeEntidade + "/indiceEmail_d.db", "dados/" + nomeEntidade + "/indiceEmail_c.db");

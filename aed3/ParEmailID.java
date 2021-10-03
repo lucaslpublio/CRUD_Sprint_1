@@ -1,3 +1,4 @@
+package aed3;
 /*
 
 Esta classe representa um PAR CHAVE VALOR (PCV) 

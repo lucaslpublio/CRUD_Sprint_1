@@ -1,6 +1,7 @@
 import java.io.File;
 
 import aed3.ArquivoIndexado;
+import aed3.Usuario;
 
 public class Main {
   public static void main(String[] args) {

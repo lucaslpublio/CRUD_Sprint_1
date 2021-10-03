@@ -9,6 +9,13 @@
       "name": "Launch Main",
       "request": "launch",
       "mainClass": "Main",
+      "projectName": "CRUD_Sprint_1_6e382d31"
+    },
+    {
+      "type": "java",
+      "name": "Launch Main",
+      "request": "launch",
+      "mainClass": "Main",
       "projectName": "javaio4 - indexado_2ec3a648"
     },
     {

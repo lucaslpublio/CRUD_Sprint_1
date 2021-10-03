@@ -1,11 +1,10 @@
+package aed3;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Scanner;
-
-import aed3.Registro;
 
 public class Usuario implements Registro {
   protected int idUsuario;
@@ -14,7 +13,7 @@ public class Usuario implements Registro {
   protected int HashSenha;
   protected String resposta;
 
-  public Usuario(String n, String e, String s, String p) {
+  public Usuario(String n, String e, int s, String p) {
     this.idUsuario = -1;
     this.nome = n;
     this.email = e;
@@ -26,7 +25,7 @@ public class Usuario implements Registro {
     this.idUsuario = -1;
     this.nome = "";
     this.email = "";
-    this.HashSenha = "";
+    this.HashSenha = -1;
     this.resposta = "";
   }
 
@@ -54,11 +53,11 @@ public class Usuario implements Registro {
     return this.email;
   }
 
-  public void setHashSenha(String s) {
+  public void setHashSenha(int s) {
     this.HashSenha = s;
   }
 
-  public String getHashSenha() {
+  public int getHashSenha() {
     return this.HashSenha;
   }
 
@@ -73,7 +72,7 @@ public class Usuario implements Registro {
   public String toString() {
 
     return "\nID....: " + this.idUsuario + "\nNome: " + this.nome + "\nEmail.: " + this.email +
-       "\nSenha.: " + this.HashSenha + "\nResposta.: " + this.resposta+ ;
+       "\nSenha.: " + this.HashSenha + "\nResposta.: " + this.resposta;
   }
 
   // Lógica inicial do cabeçalho, damos as opcões ao usuario e
@@ -82,18 +81,7 @@ public class Usuario implements Registro {
     Usuario user = new Usuario();
     Scanner sc = new Scanner (System.in);
 
-    System.out.println("
-    PERGUNTAS 1.0
-    =============
-
-    ACESSO
-
-    1) Acesso ao sistema
-    2) Novo usuário (primeiro acesso)
-
-    0) Sair
-
-    Opção: ")
+    System.out.println("\nPERGUNTAS 1.0\n=============\n\nACESSO\n1) Acesso ao sistema\n2) Novo usuário (primeiro acesso)\n0) Sair\n\nOpção: ");
 
     int escolha = sc.nextInt();
 
@@ -111,11 +99,7 @@ public class Usuario implements Registro {
   public Usuario PrimeiroAcesso() {
     Usuario user = new Usuario();
     Scanner sc = new Scanner (System.in);
-    System.out.println("
-    NOVO USUARIO
-    ============
-
-    Email: ");
+    System.out.println("\nNOVO USUARIO\n============\n\nEmail: ");
 
     String NovoEmail = sc.next();
 
@@ -127,7 +111,7 @@ public class Usuario implements Registro {
       System.out.println("Senha: ");
       int psw = sc.next().hashCode();
       System.out.println("Qual o nome do seu PET?: ");
-      String asw = asw.next();
+      String asw = sc.next();
 
       Usuario novo = new Usuario(name, NovoEmail, psw, asw);
 
