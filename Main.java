@@ -30,7 +30,7 @@ public class Main {
       arqUsuarios.delete(2);
       System.out.println("\n" + arqUsuarios.read(2));
 
-      c0.nome = "José das Couves";
+      c0.setNome("José das Couves");
       arqUsuarios.update(c0);
       System.out.println("\n" + arqUsuarios.read(1));
 
