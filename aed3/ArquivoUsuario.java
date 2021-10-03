@@ -1,4 +1,5 @@
 import aed3.ArquivoIndexado;
+import aed3.HashExtensivel;
 
 public class ArquivoUsuarios extends ArquivoIndexado<Usuario> {
     HashExtensivel<ParEmailID> indiceEmail;

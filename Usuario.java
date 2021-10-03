@@ -3,6 +3,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.Scanner;
 
 import aed3.Registro;
 
@@ -73,7 +74,70 @@ public class Usuario implements Registro {
 
     return "\nID....: " + this.idUsuario + "\nNome: " + this.nome + "\nEmail.: " + this.email +
        "\nSenha.: " + this.HashSenha + "\nResposta.: " + this.resposta+ ;
-   }
+  }
+
+  // Lógica inicial do cabeçalho, damos as opcões ao usuario e
+  // a partir da sua decisão tomamos o caminho necessário
+  public int cabecalho() {
+    Usuario user = new Usuario();
+    Scanner sc = new Scanner (System.in);
+
+    System.out.println("
+    PERGUNTAS 1.0
+    =============
+
+    ACESSO
+
+    1) Acesso ao sistema
+    2) Novo usuário (primeiro acesso)
+
+    0) Sair
+
+    Opção: ")
+
+    int escolha = sc.nextInt();
+
+    if(escolha == 1) {
+      user.Acesso();
+    } else 
+      user.PrimeiroAcesso();
+
+    return escolha;
+
+  }
+
+  // Lógica do primeiroc acesso, método que não requer parâmetros e
+  // retorna o usuário novo
+  public Usuario PrimeiroAcesso() {
+    Usuario user = new Usuario();
+    Scanner sc = new Scanner (System.in);
+    System.out.println("
+    NOVO USUARIO
+    ============
+
+    Email: ");
+
+    String NovoEmail = sc.next();
+
+    if(user.read(NovoEmail) != null) {
+      System.out.println("Email já Cadastrado!");
+    } else {
+      System.out.println("Nome: ");
+      String name = sc.next();
+      System.out.println("Senha: ");
+      int psw = sc.next().hashCode();
+      System.out.println("Qual o nome do seu PET?: ");
+      String asw = asw.next();
+
+      Usuario novo = new Usuario(name, NovoEmail, psw, asw);
+
+      return novo;
+
+    }
+  }
+
+  
+  
 
   public byte[] toByteArray() throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
