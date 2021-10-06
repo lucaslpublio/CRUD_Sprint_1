@@ -44,7 +44,6 @@ public class ArquivoUsuario extends Crud<Usuario> {
 	}
 	@Override
 	public int create(Usuario user) throws Exception {
-		if(-1 != emailID(user.email))	throw new Exception("Email ja existente");
 		int id = super.create(user);
 		idEmail(user.email, id);
 		return id;
@@ -60,7 +59,7 @@ public class ArquivoUsuario extends Crud<Usuario> {
     private int MENU()throws Exception  {
     	Usuario user = new Usuario();
 		int escolha;
-		System.out.println("\nPERGUNTAS 1.0\n=============\n\nACESSO\n1) Acesso ao sistema\n2) Novo usuário (primeiro acesso)\n0) Sair\n\nOpção: ");
+		System.out.println("\nPERGUNTAS 1.0\n=============\n\nACESSO\n1) Acesso ao sistema\n2) Novo usuário (primeiro acesso)\n\n3) Alterar conta existente\n0) Sair\n\nOpção: ");
     	try {
 			escolha=sc.nextInt();
 		} catch (Exception e) {
@@ -72,8 +71,11 @@ public class ArquivoUsuario extends Crud<Usuario> {
 				break;
 			case 2:
 				user=PrimeiroAcesso();
+				if(-1 != emailID(user.email))	throw new Exception("Email ja existente");
 				create(user);
 				break;
+			case 3:
+				user=TrocarConta();
 			case 0:
 				break;
 			default:
@@ -88,17 +90,8 @@ public class ArquivoUsuario extends Crud<Usuario> {
     	String Email = sc.next();
     	user= read(Email);         // na leitura ira retornar o usu�rio para fazer as demais opera��es
     	if(user!=null) {
-    		System.out.println("Senha: ");
-    		int senha1=sc.next().hashCode();
-    		int senha2=user.getHashSenha();  // ira buscar a senha do usu�rio e compara com a digitada
-    		if(senha2 == senha1)	System.out.println("Bem vindo");
+    		if(TesteSenha(user))	System.out.println("Bem vindo");
     		else {
-    			Boolean RESP=false;
-				for (int i = 3; i > 0 && !RESP; i--) {
-					System.out.println("Senha invalida\nTente novamente :"+i);
-					senha1=sc.next().hashCode();
-					RESP=senha1 == senha2;
-				}  
     			System.out.print(" Precione enter para voltar ao Menu: ");
     			sc.nextLine();
     		}
@@ -135,4 +128,88 @@ public class ArquivoUsuario extends Crud<Usuario> {
 		}while(escolha!=0);
 		sc.close();
 	}   
+
+
+
+
+
+	@Override
+  public int update(Usuario user) throws Exception {
+    int id=super.update(user);
+    if (id != user.getID()){
+		  IDEmail.seek(0);
+      user.setID(id);
+		int hashS=user.getEmail().hashCode();
+		int hash;
+		boolean FOUND=false;
+		do {
+			hash=IDEmail.readInt();
+			id=IDEmail.readInt();
+			FOUND = hash == hashS;
+		} while (!FOUND && IDEmail.getFilePointer()<IDEmail.length());
+		if (FOUND){
+      IDEmail.seek(IDEmail.getFilePointer()-4);
+      IDEmail.writeInt(id);
+    }
+    }
+    return user.getID();
+  }
+  private Usuario TrocarConta() throws Exception{
+    Usuario user;
+    System.out.println("\nTROCAR INFORMACOES DA CONTA\n============\n\nEmail: ");
+    String Email = sc.next();
+    user= read(Email);         // na leitura ira retornar o usu�rio para fazer as demais opera��es
+    if(user!=null) {
+    	if(TesteSenha(user)) {  if (TesteFrase(user)){
+                                user=updateConta(user);
+                              }
+                              
+      }
+    	else {
+    		System.out.print(" Precione enter para voltar ao Menu: ");
+    		sc.nextLine();
+    	}
+    }else {
+    	System.out.println("E-mail invalido");
+    	System.out.print(" Precione enter para voltar ao Menu: ");
+    	sc.nextLine();
+		}
+    return user;
+  }
+  private Boolean TesteSenha(Usuario user){
+    System.out.println("Senha: ");
+    Boolean RESP = false;
+    int senha1=sc.next().hashCode();
+    int senha2=user.getHashSenha();  // ira buscar a senha do usu�rio e compara com a digitada
+	RESP=senha1 == senha2;
+    for (int i = 3; i > 0 && !RESP; i--) {
+			System.out.println("Senha invalida\nTente novamente :"+i);
+			senha1=sc.next().hashCode();
+			RESP=senha1 == senha2;
+		}  
+    return RESP;
+  }
+  private Boolean TesteFrase(Usuario user){
+    System.out.println("Frase de recuperação: "+"Qual o nome do seu PET?:");
+    Boolean RESP = false;
+    String senha1=sc.next();
+    String senha2=user.getResposta();  // ira buscar a senha do usu�rio e compara com a digitada
+	RESP=senha1.equals(senha2);
+    for (int i = 3; i > 0 && !RESP; i--) {
+			System.out.println("Resposta invalida\nTente novamente :"+i);
+			senha1=sc.next();
+			RESP=senha1.equals(senha2);
+		}  
+    return RESP;
+  }
+  private Usuario updateConta(Usuario user) throws Exception{
+    System.out.println("Nome: ");
+      user.setNome(sc.next());
+      System.out.println("Senha: ");
+      user.setHashSenha(sc.next().hashCode());
+      System.out.println("Qual o nome do seu PET?: ");
+      user.setResposta(sc.next());
+	  user.setID(update(user));
+    return user;
+  }
 }
