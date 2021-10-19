@@ -1,10 +1,10 @@
-package aed3;
+/*package aed3;
 import java.util.Scanner;
 import java.io.RandomAccessFile;
 import java.lang.reflect.Constructor;
 import java.io.IOException;
 
-public class Perguntas extends ArvoreBMais {
+public class Perguntas extends ArvoreBMais<Pergunta> {
 
 
     public Perguntas(Constructor c, int o, String na) throws Exception {
@@ -85,7 +85,7 @@ public void MinhaArea()throws Exception  {
             MeusVotosPerguntas();
         case 4:
         MeusVotosRespostas();
-        break;*/
+        break;*//*
         case 0:
         MenuPerguntas(IDG);
             break;
@@ -116,7 +116,7 @@ public void MinhasPerguntas()throws Exception  {
             AlterarPergunta();
         case 4:
         ArquivarPergunta();
-        break;*/
+        break;*//*
         case 0:
         MinhaArea();
             break;
@@ -153,3 +153,4 @@ public void IncluirPergunta() throws Exception{
 }
 
 }
+*/

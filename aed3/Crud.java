@@ -236,4 +236,3 @@ public class Crud<T extends Registro> {
         logR=new String("\n\"");
     }
 }
-

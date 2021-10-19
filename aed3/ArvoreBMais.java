@@ -243,7 +243,7 @@ public class ArvoreBMais<T extends RegistroArvoreBMais<T>> {
         // processo de ordenação.
         else if (i == pa.elementos.size() && pa.filhos.get(0) == -1) {
 
-            // Testa se há uma próxima folha. Nesse caso, retorna um vetor vazio
+            // Testa se não há uma próxima folha. Nesse caso, retorna um vetor vazio
             if (pa.proxima == -1) {
                 ArrayList<T> resposta = new ArrayList<>();
                 return resposta;
@@ -297,7 +297,7 @@ public class ArvoreBMais<T extends RegistroArvoreBMais<T>> {
     // Inclusão de novos elementos na árvore. A inclusão é recursiva. A primeira
     // função chama a segunda recursivamente, passando a raiz como referência.
     // Eventualmente, a árvore pode crescer para cima.
-    public boolean create(int id) throws Exception {
+    public boolean create(T obj) throws Exception {
 
         // Carrega a raiz
         arquivo.seek(0);
@@ -309,7 +309,7 @@ public class ArvoreBMais<T extends RegistroArvoreBMais<T>> {
         // e crescimento da árvore. Assim, são usados os valores globais elemAux
         // e chave2Aux. Quando há uma divisão, as chaves promovidas são armazenadas
         // nessas variáveis.
-        elemAux = id.clone();
+        elemAux = obj.clone();
 
         // Se houver crescimento, então será criada uma página extra e será mantido um
         // ponteiro para essa página. Os valores também são globais.
