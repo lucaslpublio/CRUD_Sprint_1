@@ -2,10 +2,13 @@ package aed3;
 
 import java.io.RandomAccessFile;
 import java.util.Scanner;
+import java.io.IOException;
+
 
 public class ArquivoUsuario extends Crud<Usuario> {
     RandomAccessFile IDEmail;
     private Scanner sc;
+	int IDG;
 
     public ArquivoUsuario(String nomeEntidade) throws Exception {
     	super(nomeEntidade, Usuario.class.getConstructor());
@@ -59,7 +62,7 @@ public class ArquivoUsuario extends Crud<Usuario> {
     private int MENU()throws Exception  {
     	Usuario user = new Usuario();
 		int escolha;
-		System.out.println("\nPERGUNTAS 1.0\n=============\n\nACESSO\n1) Acesso ao sistema\n2) Novo usuário (primeiro acesso)\n\n3) Alterar conta existente\n0) Sair\n\nOpção: ");
+		System.out.println("\nPERGUNTAS 1.0\n=============\n\nACESSO\n1) Acesso ao sistema\n2) Novo usuário (primeiro acesso)\n3) Alterar conta existente\n0) Sair\n\nOpção: ");
     	try {
 			escolha=sc.nextInt();
 		} catch (Exception e) {
@@ -84,22 +87,30 @@ public class ArquivoUsuario extends Crud<Usuario> {
 		}
 		return escolha;
     }
+
     public Usuario Acesso() throws Exception {
+		Perguntas perguntas = new Perguntas();
     	Usuario user;
     	System.out.println("\nACESSO AO SISTEMA\n============\n\nEmail: ");
     	String Email = sc.next();
     	user= read(Email);         // na leitura ira retornar o usu�rio para fazer as demais opera��es
     	if(user!=null) {
-    		if(TesteSenha(user))	System.out.println("Bem vindo");
-    		else {
-    			System.out.print(" Precione enter para voltar ao Menu: ");
-    			sc.nextLine();
+    		if(TesteSenha(user)){ 
+					System.out.println("Bem vindo");
+    		
+					IDG= user.getID();
+				perguntas.MenuPerguntas(IDG);
+				
     		}
     	}else {
     		System.out.println("E-mail invalido");
-    		System.out.print(" Precione enter para voltar ao Menu: ");
-    		sc.nextLine();
+    		for(int i = 0; i < 2; i++) {
+				System.out.print(i + " Precione enter para continuar: ");
+				
+				sc.nextLine();
+			}
 		}
+           
     	return user;
     }
 	// L�gica do primeiro acesso, m�todo que n�o requer par�metros e
@@ -131,7 +142,7 @@ public class ArquivoUsuario extends Crud<Usuario> {
 
 
 
-
+	
 
 	@Override
   public int update(Usuario user) throws Exception {
@@ -166,13 +177,19 @@ public class ArquivoUsuario extends Crud<Usuario> {
                               
       }
     	else {
-    		System.out.print(" Precione enter para voltar ao Menu: ");
-    		sc.nextLine();
+    		for(int i = 0; i < 2; i++) {
+				System.out.print(i + " Precione enter para continuar: ");
+				
+				sc.nextLine();
+			}
     	}
     }else {
     	System.out.println("E-mail invalido");
-    	System.out.print(" Precione enter para voltar ao Menu: ");
-    	sc.nextLine();
+    	for(int i = 0; i < 5; i++) {
+			System.out.print(i + " Precione enter para continuar: ");
+			
+			sc.nextLine();
+		}
 		}
     return user;
   }
