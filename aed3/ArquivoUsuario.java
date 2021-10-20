@@ -2,20 +2,21 @@ package aed3;
 
 import java.io.RandomAccessFile;
 import java.util.Scanner;
-import java.io.IOException;
 
 
 public class ArquivoUsuario extends Crud<Usuario> {
-    RandomAccessFile IDEmail;
+	private RandomAccessFile IDEmail;
     private Scanner sc;
-	int IDG;
+	private int ID_Usuario;
+	
 
     public ArquivoUsuario(String nomeEntidade) throws Exception {
     	super(nomeEntidade, Usuario.class.getConstructor());
 		IDEmail = new RandomAccessFile("dados/" + nomeEntidade + "/parIDE.db", "rw");
+		
 		sc= new Scanner(System.in);
     }
-    private int idEmailTest(String email,int ID) throws Exception{
+    /*private int idEmailTest(String email,int ID) throws Exception{
 		int idS=emailID(email);
 		if(-1 != idS){
 			IDEmail.seek(IDEmail.length());
@@ -24,7 +25,7 @@ public class ArquivoUsuario extends Crud<Usuario> {
 			idS=ID;
 		}
 		return idS;
-	}
+	}*/
 	private void idEmail(String email,int ID) throws Exception{
 		IDEmail.seek(IDEmail.length());
 		IDEmail.writeInt(email.hashCode());
@@ -89,7 +90,6 @@ public class ArquivoUsuario extends Crud<Usuario> {
     }
 
     public Usuario Acesso() throws Exception {
-		Perguntas perguntas = new Perguntas();
     	Usuario user;
     	System.out.println("\nACESSO AO SISTEMA\n============\n\nEmail: ");
     	String Email = sc.next();
@@ -98,8 +98,8 @@ public class ArquivoUsuario extends Crud<Usuario> {
     		if(TesteSenha(user)){ 
 					System.out.println("Bem vindo");
     		
-					IDG= user.getID();
-				perguntas.MenuPerguntas(IDG);
+			//		ID_Usuario= user.getID();
+			//	perguntas.MenuPerguntas(ID_Usuario);
 				
     		}
     	}else {
@@ -229,4 +229,6 @@ public class ArquivoUsuario extends Crud<Usuario> {
 	  user.setID(update(user));
     return user;
   }
+  
+
 }
