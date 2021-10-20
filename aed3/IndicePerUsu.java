@@ -10,12 +10,17 @@ public class IndicePerUsu implements RegistroArvoreBMais<IndicePerUsu> {
     public IndicePerUsu(Pergunta pergunta){
         this.pergunta=pergunta;
     }
+    public IndicePerUsu(int idUsuario){
+        this(-2, idUsuario);
+    }
     public IndicePerUsu(int idPergunta, int idUsuario){
         this.pergunta=new Pergunta();
         pergunta.idUsuario=idUsuario;
         pergunta.idPergunta=idPergunta;
     }
-
+    public IndicePerUsu(){
+        this.pergunta=null;
+    }
 
 
 public short size() {
@@ -27,6 +32,7 @@ public short size() {
 
 
 public byte[] toByteArray() throws IOException {
+    if (pergunta.idPergunta == -2) return null;
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     DataOutputStream dos = new DataOutputStream(baos);
     dos.writeInt(pergunta.idUsuario);
@@ -49,7 +55,9 @@ public void fromByteArray(byte[] ba) throws IOException {
 
 
 public int compareTo(IndicePerUsu obj) {
-    return pergunta.idUsuario-obj.pergunta.idUsuario+pergunta.idPergunta-obj.pergunta.idPergunta;
+    if (pergunta.idUsuario != obj.pergunta.idUsuario) return pergunta.idUsuario-obj.pergunta.idUsuario;
+    else {  if (pergunta.idPergunta == -2)  return 0;}
+    return pergunta.idPergunta-obj.pergunta.idPergunta;
 }
 
 

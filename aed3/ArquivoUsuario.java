@@ -7,13 +7,14 @@ import java.util.Scanner;
 public class ArquivoUsuario extends Crud<Usuario> {
 	private RandomAccessFile IDEmail;
     private Scanner sc;
-	private int ID_Usuario;
+	private final int ORDEM=5; 
+	private ArquivoPergunta perguntas;
 	
 
     public ArquivoUsuario(String nomeEntidade) throws Exception {
     	super(nomeEntidade, Usuario.class.getConstructor());
 		IDEmail = new RandomAccessFile("dados/" + nomeEntidade + "/parIDE.db", "rw");
-		
+		perguntas= new ArquivoPergunta(nomeEntidade, ORDEM);
 		sc= new Scanner(System.in);
     }
     /*private int idEmailTest(String email,int ID) throws Exception{
@@ -97,18 +98,14 @@ public class ArquivoUsuario extends Crud<Usuario> {
     	if(user!=null) {
     		if(TesteSenha(user)){ 
 					System.out.println("Bem vindo");
-    		
-			//		ID_Usuario= user.getID();
-			//	perguntas.MenuPerguntas(ID_Usuario);
+					perguntas.setUsuario(user);
+					perguntas.start();
 				
     		}
     	}else {
     		System.out.println("E-mail invalido");
-    		for(int i = 0; i < 2; i++) {
-				System.out.print(i + " Precione enter para continuar: ");
-				
-				sc.nextLine();
-			}
+    		System.out.println("Pressione qualquer tecla para continuar");
+        	System.in.read();
 		}
            
     	return user;
