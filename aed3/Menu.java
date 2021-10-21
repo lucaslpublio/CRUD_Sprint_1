@@ -302,10 +302,10 @@ public class Menu {
           System.out.println("\n\nEscreva sua pergunta:");
           String pergunta=sc.nextLine();
           String PalavrasChaves="";
-          
           if(pergunta == null || pergunta.equals("")){
               InserirPergunta();
           }else{
+              if(pergunta.length()==1 && pergunta.charAt(0) == '0')return;
               System.out.println("Palavras Chaves ou 0 para sair:");
               String aux;
               do {
@@ -358,7 +358,8 @@ public class Menu {
                 aux = aux.trim();
                   if (aux.charAt(aux.length()-1)!='?')  aux+="?";
                   nova.setPergunta(aux);
-                  
+                }
+                else nova.setPergunta(pergunta.getPergunta());  
                   System.out.println(pergunta.toString()+"\nDeseja Alterar as Chaves? (s/n)");
                   confirmacao='n';
                   try {
@@ -373,6 +374,8 @@ public class Menu {
                   if (aux2.charAt(0)!='0') chaves+=(aux2.trim()+";");
                 } while (aux2.charAt(0)!='0');
                 nova.setPalavrasChave(chaves);
+                }
+                else nova.setPalavrasChave(pergunta.getPalavrasChave());  
                 System.out.println("Alterar a pergunta? (s/n)");
                 confirmacao='n';
                   try {
@@ -381,8 +384,8 @@ public class Menu {
                 if (confirmacao == 'n') return;
                 nova.setcriacao(new Date().getTime());
                 ap.update(pergunta,nova);
-                  }
-                }
+                  
+                
               }
             
         }

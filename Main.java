@@ -15,8 +15,6 @@ public class Main {
     //menu.ap.show();
 	  menu.start();
     //menu.showU();
-    //String a = "gay12345?";
-    //System.out.println(a.charAt(a.length()-1));
 
   }
 }
