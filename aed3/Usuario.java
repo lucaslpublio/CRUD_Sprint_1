@@ -79,7 +79,20 @@ public class Usuario implements Registro {
     return "\nID....: " + this.idUsuario + "\nNome: " + this.nome + "\nEmail.: " + this.email +
        "\nSenha.: " + this.HashSenha + "\nResposta.: " + this.resposta;
   }
-
+  public int compareTo(Usuario obj){
+    if (this.idUsuario==obj.idUsuario){
+      if (this.nome.compareTo(obj.nome) == 0){
+        if (this.email.compareTo(obj.email) == 0){
+          if (this.HashSenha == obj.HashSenha){
+            if (this.resposta.compareTo(obj.resposta) == 0){
+              return 0;
+            }
+          }
+        }
+      }
+    }
+    return 1;
+  }
   
 
   

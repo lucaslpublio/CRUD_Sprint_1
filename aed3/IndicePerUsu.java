@@ -19,7 +19,7 @@ public class IndicePerUsu implements RegistroArvoreBMais<IndicePerUsu> {
         pergunta.idPergunta=idPergunta;
     }
     public IndicePerUsu(){
-        this.pergunta=null;
+        this.pergunta=new Pergunta();
     }
 
 
@@ -37,7 +37,7 @@ public byte[] toByteArray() throws IOException {
     DataOutputStream dos = new DataOutputStream(baos);
     dos.writeInt(pergunta.idUsuario);
     dos.writeInt(pergunta.idPergunta);
-    return null;
+    return baos.toByteArray();
 }
 
 

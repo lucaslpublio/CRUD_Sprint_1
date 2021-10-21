@@ -1,24 +1,35 @@
 package aed3;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class ArquivoPergunta extends Crud<Pergunta> {
     private int ORDEM=5;
     private ArvoreBMais<IndicePerUsu> index;
     private Usuario usuario;
-    private Scanner sc;
+    public ListaInvertida chaves;
     public ArquivoPergunta(String nomeEntidade,int ordem) throws Exception{
         super(nomeEntidade, Pergunta.class.getConstructor());
         ORDEM=ordem;
         index= new ArvoreBMais<>(IndicePerUsu.class.getConstructor(), ORDEM, "dados/" + nomeEntidade + "/indexPergunta.db");
-        sc = new Scanner(System.in);
+        chaves = new ListaInvertida(ORDEM, "dados/" + nomeEntidade + "/chave.dic", "dados/" + nomeEntidade + "/chave.blo");
     }
     @Override
 	public int create(Pergunta pergunta) throws Exception {
-		int id = super.create(pergunta);
-		index.create(new IndicePerUsu(id, usuario.getID()));
-		return id;
+		int id = super.getNextID();
+        boolean created = index.create(new IndicePerUsu(id, usuario.getID()));    
+        if (created){
+            super.create(pergunta);
+            String chave = Normalizer.normalize(pergunta.palavrasChave, Normalizer.Form.NFKD);
+            chave = chave.replaceAll("[^\\p{ASCII}]", "");
+            chave = chave.trim();
+            chave = chave.toLowerCase();
+            String aux[] = chave.split(";");
+            for (String string : aux) {
+                chaves.create(string, id);    
+            }
+        }    
+        return id;
 	}
 	public Pergunta read(Pergunta pergunta) throws Exception {
 		int id=pergunta.getID();
@@ -38,108 +49,19 @@ public class ArquivoPergunta extends Crud<Pergunta> {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-    
-    
-    
-    // Inicio das Perguntas
-    
-    public int MenuPerguntas() throws Exception {
-    int escolha;
-    System.out.println("\nPERGUNTAS 1.0\n=============\n\nINÍCIO > MINHA ÁREA > MINHAS PERGUNTAS\n1) Listar\n2) Incluir\n3) Alterar \n4) Arquivar \n\n0) Sair\n\nOpção: ");
-    
-    try {
-        escolha=sc.nextInt();
-    } catch (Exception e) {
-        escolha=-1;
-    }
-    
-    switch (escolha) {
-        case 1:
-            escolha=-1;
-            MinhasPerguntas();
-            break;
-        //case 2:
-            //user=BuscarPerguntas();
-            //break;
-        case 0:
-            break;
-        default:
-            System.out.println("\nCommando INVALIDO!");
-            break;
-    }
-    return escolha;
-    }
-    
-    
-    public int MENU()throws Exception  {
-    int escolha;
-    System.out.println("\nPERGUNTAS 1.0\n=============\n\nINÍCIO > MINHA ÁREA\n1) Minhas perguntas\n2) Minhas respostas\n3) Meus votos em perguntas\n4) Meus votos em respostas\n\n0) Retornar ao menu anterior\n\nOpção: ");
-    try {
-        escolha=sc.nextInt();
-    } catch (Exception e) {
-        escolha=-1;
-    }
-    switch (escolha) {
-        case 1:
-            escolha= MenuPerguntas();
-            break;
-        /*case 2:
-            MinhasRespostas();
-            break;
-        case 3:
-            MeusVotosPerguntas();
-        case 4:
-        MeusVotosRespostas();
-        break;*/
-        case 0:
-            escolha=0;
-            break;
-        default:
-            System.out.println("\nCommando INVALIDO!");
-            break;
-    }
-    return escolha;
-    }
-    
-    
-    public void MinhasPerguntas()throws Exception  {
-        System.out.println("\nPERGUNTAS 1.0\n=============\n\nINÍCIO > MINHA ÁREA > MINHAS PERGUNTAS > Lista");
-        ArrayList<Pergunta> pergs = read(usuario);
-        for (int i = 0; i < pergs.size(); i++) {
-            System.out.println(pergs.get(i).toString());
+    public void update(Pergunta antiga,Pergunta nova) throws Exception{
+        antiga.setAtiva(false);
+        super.update(antiga);
+        String aux[] = antiga.getPalavrasChave().split(";");
+        for (String string : aux) {
+            chaves.delete(string, antiga.getID());
         }
-        System.out.println("Pressione qualquer tecla para continuar");
-        System.in.read();
+        nova.setidUsuario(antiga.getidUsuario());
+        nova.setAtiva(true);
+        create(nova);
     }
-    
-    public void IncluirPergunta() throws Exception{
-    
-    System.out.println("Escreva sua pergunta:");
-    String pergunta=sc.next();
-    String PalavrasChaves="";
-    
-    if(pergunta == null){
-        MinhasPerguntas();
-    }else{
-        System.out.println("Palavras Chaves:");
-         PalavrasChaves=sc.next();
-    
-        System.out.println("Incluir a pergunta? (s/n)");
-        char confirmacao=sc.next(). charAt(0);
-    
-        if(confirmacao == 'n'){
-            MinhasPerguntas();
-        }else{
-    
-        }
+    public void delete(Pergunta pergunta) throws Exception{
+        pergunta.setAtiva(false);
+        super.update(pergunta);
     }
-    //createPergunta(pergunta,PalavrasChaves);
-    
-    }
-    public void start() throws Exception{
-		int escolha=-1;
-		do{
-			escolha=MENU();
-		}while(escolha!=0);
-	} 
 }

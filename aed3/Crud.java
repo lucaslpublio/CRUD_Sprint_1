@@ -10,6 +10,7 @@ public class Crud<T extends Registro> {
     RandomAccessFile ind;
     RandomAccessFile log;
     Constructor<T> construtor;
+    protected boolean fill=true;
     T sObj;
     long sPot;
     String logR;
@@ -36,7 +37,7 @@ public class Crud<T extends Registro> {
         int ID=ind.readInt();
         int LIXO=ind.readInt();
         log("ID:"+ID+"|LIXO:"+LIXO);
-        if (LIXO>0) {
+        if (fill && LIXO>0) {
             fillInd(obj);
             log("|FILL");
         }
@@ -61,7 +62,7 @@ public class Crud<T extends Registro> {
     public int update(T obj) throws Exception{
         log("UPDATE");
         byte OBJ[]=obj.toByteArray();
-        arquivo.seek(seek(obj.getID())+1);
+        arquivo.seek(find(obj.getID())+1);
         int tam=arquivo.readInt();
         log("|TAM:"+tam+"&"+OBJ.length);
         if (tam == OBJ.length){
@@ -78,9 +79,9 @@ public class Crud<T extends Registro> {
     }
     public void delete(int id) throws Exception{
         log("DELETE:"+id);
-        arquivo.seek(seek(id));
+        arquivo.seek(find(id));
         arquivo.writeByte('!');
-        ind.seek(seekInd(id));
+        ind.seek(findInd(id));
         ind.writeInt(-1);
         ind.seek(4);
         int lixo=ind.readInt()+1;
@@ -89,7 +90,7 @@ public class Crud<T extends Registro> {
         log();
     }
     public T read(int id) throws Exception{
-        arquivo.seek(seek(id));
+        arquivo.seek(find(id));
         byte test=arquivo.readByte();
         if (test == '!') throw new Exception("ID Apagado");
         if (test != ' ') throw new Exception("Hash Falha");
@@ -137,7 +138,7 @@ public class Crud<T extends Registro> {
         }
         log();
     }
-    private long seek(int id) throws Exception{
+    protected long find(int id) throws Exception{
         ind.seek(TAMANHO_CABECALHO);
         int ID=ind.readInt();
         long pont=ind.readLong();
@@ -156,7 +157,7 @@ public class Crud<T extends Registro> {
         return pont;
 
     }
-    private long seekInd(int id) throws Exception{
+    protected long findInd(int id) throws Exception{
         ind.seek(TAMANHO_CABECALHO);
         long pont=ind.getFilePointer();
         int ID=ind.readInt();
@@ -176,7 +177,7 @@ public class Crud<T extends Registro> {
         return pont;
 
     }
-    private void fillInd(T obj) throws Exception{
+    protected void fillInd(T obj) throws Exception{
         ind.seek(0);
         int id=ind.readInt()+1;
         ind.seek(0);
@@ -227,12 +228,16 @@ public class Crud<T extends Registro> {
             arquivo.write(OBJ);
         }
     }
-    private void log(String text){
+    protected void log(String text){
         logR+="|"+text;
     }
-    private void log() throws Exception{
+    protected void log() throws Exception{
         logR+="\"\n";
         log.writeUTF(logR);
         logR=new String("\n\"");
+    }
+    public int getNextID() throws Exception{
+        ind.seek(0);
+        return ind.readInt()+1;
     }
 }
