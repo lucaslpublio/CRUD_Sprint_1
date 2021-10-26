@@ -3,9 +3,6 @@ package aed3;
 
 public class ArquivoUsuario extends Crud<Usuario> {
 	private HashExtensivel<ParEmailID> IDEmail;
-
-	
-
     public ArquivoUsuario(String nomeEntidade) throws Exception {
     	super(nomeEntidade, Usuario.class.getConstructor());
 		IDEmail = new HashExtensivel<>(ParEmailID.class.getConstructor(), 4, "dados/" + nomeEntidade + "/hash.dir", "dados/" + nomeEntidade + "/hash.nes");
@@ -35,11 +32,8 @@ public class ArquivoUsuario extends Crud<Usuario> {
 	}
 	@Override
   	public int update(Usuario user) throws Exception {
-    
-	int id=super.update(user);
-    if (id != user.getID())	IDEmail.update(new ParEmailID(user.email, user.getID()));
-    return user.getID();
+		int id=super.update(user);
+    	if (id != user.getID())	IDEmail.update(new ParEmailID(user.email, user.getID()));
+    	return user.getID();
   	}
-  
-
 }

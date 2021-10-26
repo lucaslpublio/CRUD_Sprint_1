@@ -30,7 +30,6 @@ public class Crud<T extends Registro> {
             ind.writeInt(0);
         }
     }
-
     public int create(T obj) throws Exception{
         log("CREATE");
         ind.seek(0);

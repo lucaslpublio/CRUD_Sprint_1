@@ -11,7 +11,6 @@ public class Usuario implements Registro {
   protected String email;
   protected int HashSenha;
   protected String resposta;
-
   public Usuario(String n, String e, int s, String r) {
     this.idUsuario = -1;
     this.nome = n;
@@ -33,47 +32,36 @@ public class Usuario implements Registro {
     this.HashSenha = -1;
     this.resposta = "";
   }
-
   public void setID(int id) {
     this.idUsuario = id;
   }
-
   public int getID() {
     return this.idUsuario;
   }
-
   public void setNome(String n) {
     this.nome = n;
   }
-
   public String getNome() {
     return this.nome;
   }
-
   public void setEmail(String e) {
     this.email = e;
   }
-
   public String getEmail() {
     return this.email;
   }
-
   public void setHashSenha(int i) {
     this.HashSenha = i;
   }
-
   public int getHashSenha() {
     return this.HashSenha;
   }
-
   public void setResposta(String p) {
     this.resposta = p;
   }
-
   public String getResposta() {
     return this.resposta;
   }
-
   public String toString() {
 
     return "\nID....: " + this.idUsuario + "\nNome: " + this.nome + "\nEmail.: " + this.email +
@@ -93,11 +81,6 @@ public class Usuario implements Registro {
     }
     return 1;
   }
-  
-
-  
-  
-
   public byte[] toByteArray() throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     DataOutputStream dos = new DataOutputStream(baos);
@@ -108,7 +91,6 @@ public class Usuario implements Registro {
     dos.writeUTF(resposta);
     return baos.toByteArray();
   }
-
   public void fromByteArray(byte[] ba) throws IOException {
     ByteArrayInputStream bais = new ByteArrayInputStream(ba);
     DataInputStream dis = new DataInputStream(bais);
@@ -118,5 +100,4 @@ public class Usuario implements Registro {
     HashSenha = dis.readInt();
     resposta = dis.readUTF();
   }
-
 }

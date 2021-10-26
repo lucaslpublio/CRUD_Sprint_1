@@ -21,50 +21,29 @@ public class IndicePerUsu implements RegistroArvoreBMais<IndicePerUsu> {
     public IndicePerUsu(){
         this.pergunta=new Pergunta();
     }
-
-
-public short size() {
-    return 8;
-}
-
-
-
-
-
-public byte[] toByteArray() throws IOException {
-    if (pergunta.idPergunta == -2) return null;
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    DataOutputStream dos = new DataOutputStream(baos);
-    dos.writeInt(pergunta.idUsuario);
-    dos.writeInt(pergunta.idPergunta);
-    return baos.toByteArray();
-}
-
-
-
-
-
-public void fromByteArray(byte[] ba) throws IOException {
-    ByteArrayInputStream bais = new ByteArrayInputStream(ba);
-    DataInputStream dis = new DataInputStream(bais);
-    pergunta.idUsuario = dis.readInt();
-    pergunta.idPergunta = dis.readInt();
-}
-
-
-
-
-public int compareTo(IndicePerUsu obj) {
-    if (pergunta.idUsuario != obj.pergunta.idUsuario) return pergunta.idUsuario-obj.pergunta.idUsuario;
-    else {  if (pergunta.idPergunta == -2)  return 0;}
-    return pergunta.idPergunta-obj.pergunta.idPergunta;
-}
-
-
-
-
-public IndicePerUsu clone() {
-    return new IndicePerUsu(pergunta.idPergunta, pergunta.idUsuario);
-}
-
+    public short size() {
+        return 8;
+    }
+    public byte[] toByteArray() throws IOException {
+        if (pergunta.idPergunta == -2)  return null;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DataOutputStream dos = new DataOutputStream(baos);
+        dos.writeInt(pergunta.idUsuario);
+        dos.writeInt(pergunta.idPergunta);
+        return baos.toByteArray();
+    }
+    public void fromByteArray(byte[] ba) throws IOException {
+        ByteArrayInputStream bais = new ByteArrayInputStream(ba);
+        DataInputStream dis = new DataInputStream(bais);
+        pergunta.idUsuario = dis.readInt();
+        pergunta.idPergunta = dis.readInt();
+    }   
+    public int compareTo(IndicePerUsu obj) {
+        if (pergunta.idUsuario != obj.pergunta.idUsuario)   return pergunta.idUsuario-obj.pergunta.idUsuario;
+        else {  if (pergunta.idPergunta == -2)  return 0;}
+        return pergunta.idPergunta-obj.pergunta.idPergunta;
+    }
+    public IndicePerUsu clone() {
+        return new IndicePerUsu(pergunta.idPergunta, pergunta.idUsuario);
+    }
 }

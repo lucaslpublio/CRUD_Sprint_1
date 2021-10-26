@@ -32,11 +32,9 @@ public class ParEmailID implements aed3.RegistroHashExtensivel<ParEmailID> {
   private String email;
   private int id;
   private short TAMANHO = 44;
-
   public ParEmailID() {
     this("", -1);
   }
-
   public ParEmailID(String e, int i) {
     try {
       this.email = e;
@@ -47,20 +45,16 @@ public class ParEmailID implements aed3.RegistroHashExtensivel<ParEmailID> {
       ec.printStackTrace();
     }
   }
-
   @Override
   public int hashCode() {
     return this.email.hashCode();
   }
-
   public short size() {
     return this.TAMANHO;
   }
-
   public String toString() {
     return this.email + ";" + this.id;
   }
-
   public byte[] toByteArray() throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     DataOutputStream dos = new DataOutputStream(baos);
@@ -74,14 +68,13 @@ public class ParEmailID implements aed3.RegistroHashExtensivel<ParEmailID> {
       bs2[i] = bs[i];
     return bs2;
   }
-
   public void fromByteArray(byte[] ba) throws IOException {
     ByteArrayInputStream bais = new ByteArrayInputStream(ba);
     DataInputStream dis = new DataInputStream(bais);
     this.email = dis.readUTF();
     this.id = dis.readInt();
   }
-public int getId() {
+  public int getId() {
     return id;
-}
+  }
 }

@@ -13,7 +13,7 @@ public class Main {
     //menu.ap.create(new Pergunta("Qual sua cor favorita?", "cor;preferencia;", new Date().getTime(), (short)10, true));
     //menu.ap.create(new Pergunta("Vc quer de sim ou não?", "sim;não;", new Date().getTime(), (short)10, true));
     //menu.ap.show();
-	  menu.start();
+	  menu.run();
     //menu.showU();
 
   }
