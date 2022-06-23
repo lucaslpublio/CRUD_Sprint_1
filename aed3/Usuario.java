@@ -12,14 +12,20 @@ public class Usuario implements Registro {
   protected int HashSenha;
   protected String resposta;
 
-  public Usuario(String n, String e, int s, String p) {
+  public Usuario(String n, String e, int s, String r) {
     this.idUsuario = -1;
     this.nome = n;
     this.email = e;
     this.HashSenha = s;
-    this.resposta = p;
+    this.resposta = r;
   }
-
+  public Usuario(String n, String e, String s, String r) {
+    this.idUsuario = -1;
+    this.nome = n;
+    this.email = e;
+    this.HashSenha = s.hashCode();
+    this.resposta = r;
+  }
   public Usuario() {
     this.idUsuario = -1;
     this.nome = "";
@@ -52,8 +58,8 @@ public class Usuario implements Registro {
     return this.email;
   }
 
-  public void setHashSenha(int s) {
-    this.HashSenha = s;
+  public void setHashSenha(int i) {
+    this.HashSenha = i;
   }
 
   public int getHashSenha() {
